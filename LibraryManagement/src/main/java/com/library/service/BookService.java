@@ -1,20 +1,24 @@
 package com.library.service;
 
 import com.library.repository.BookRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-@Service
 public class BookService {
 
     private BookRepository bookRepository;
+    private String libraryName;
 
-    @Autowired
-    public void setBookRepository(BookRepository bookRepository) {
+    // Constructor Injection
+    public BookService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
 
+    // Setter Injection
+    public void setLibraryName(String libraryName) {
+        this.libraryName = libraryName;
+    }
+
     public void displayService() {
+        System.out.println("Library Name : " + libraryName);
         System.out.println("BookService Bean Created");
         bookRepository.displayRepository();
     }
