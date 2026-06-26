@@ -5,21 +5,24 @@ import com.library.repository.BookRepository;
 public class BookService {
 
     private BookRepository bookRepository;
-    private String libraryName;
 
-    // Constructor Injection
+    public BookService() {
+    }
+
     public BookService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
 
-    // Setter Injection
-    public void setLibraryName(String libraryName) {
-        this.libraryName = libraryName;
+    public void setBookRepository(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
     }
 
     public void displayService() {
-        System.out.println("Library Name : " + libraryName);
-        System.out.println("BookService Bean Created");
-        bookRepository.displayRepository();
+
+        System.out.println("Book Service is Executing...");
+
+        if (bookRepository != null) {
+            bookRepository.displayRepository();
+        }
     }
 }

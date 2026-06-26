@@ -3,6 +3,9 @@ package com.library.repository;
 public class BookRepository {
 
     public void displayRepository() {
-        System.out.println("BookRepository Bean Created");
+
+        System.out.println("Book Repository Accessed");
+
     }
+
 }
