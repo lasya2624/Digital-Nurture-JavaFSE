@@ -1,28 +1,25 @@
 package com.library.service;
 
+import com.library.entity.Book;
 import com.library.repository.BookRepository;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
+
+@Service
 public class BookService {
 
-    private BookRepository bookRepository;
+    private final BookRepository repository;
 
-    public BookService() {
+    public BookService(BookRepository repository) {
+        this.repository = repository;
     }
 
-    public BookService(BookRepository bookRepository) {
-        this.bookRepository = bookRepository;
+    public List<Book> getAllBooks() {
+        return repository.findAll();
     }
 
-    public void setBookRepository(BookRepository bookRepository) {
-        this.bookRepository = bookRepository;
-    }
-
-    public void displayService() {
-
-        System.out.println("Book Service is Executing...");
-
-        if (bookRepository != null) {
-            bookRepository.displayRepository();
-        }
+    public Book addBook(Book book) {
+        return repository.save(book);
     }
 }
