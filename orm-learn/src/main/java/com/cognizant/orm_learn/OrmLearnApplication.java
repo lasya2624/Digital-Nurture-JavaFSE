@@ -18,34 +18,31 @@ public class OrmLearnApplication {
 
     private static CountryService countryService;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws CountryNotFoundException {
 
         ApplicationContext context =
                 SpringApplication.run(OrmLearnApplication.class, args);
 
         countryService = context.getBean(CountryService.class);
 
-        getCountryTest();
+        testAddCountry();
     }
 
-    private static void getCountryTest() {
+    private static void testAddCountry() throws CountryNotFoundException {
 
         LOGGER.info("Start");
 
-        try {
+        Country country = new Country();
+        country.setCode("NP");
+        country.setName("Nepal");
 
-            Country country =
-                    countryService.findCountryByCode("IN");
+        countryService.addCountry(country);
 
-            LOGGER.debug("Country : {}", country);
+        Country addedCountry =
+                countryService.findCountryByCode("NP");
 
-        } catch (CountryNotFoundException e) {
-
-            LOGGER.error(e.getMessage());
-
-        }
+        LOGGER.debug("Country: {}", addedCountry);
 
         LOGGER.info("End");
     }
-
 }

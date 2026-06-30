@@ -1,5 +1,6 @@
 package com.cognizant.orm_learn.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,21 +17,27 @@ public class CountryService {
     @Autowired
     private CountryRepository countryRepository;
 
-    @Transactional
-    public Country findCountryByCode(String countryCode)
-            throws CountryNotFoundException {
+    @Transactional(readOnly = true)
+    public List<Country> getAllCountries() {
+        return countryRepository.findAll();
+    }
 
-        Optional<Country> result =
-                countryRepository.findById(countryCode);
+    @Transactional(readOnly = true)
+    public Country findCountryByCode(String code) throws CountryNotFoundException {
+
+        Optional<Country> result = countryRepository.findById(code);
 
         if (!result.isPresent()) {
-            throw new CountryNotFoundException(
-                    "Country not found with code : " + countryCode);
+            throw new CountryNotFoundException("Country not found");
         }
 
-        Country country = result.get();
+        return result.get();
+    }
 
-        return country;
+    // ************** HANDS-ON 7 **************
+    @Transactional
+    public void addCountry(Country country) {
+        countryRepository.save(country);
     }
 
 }
