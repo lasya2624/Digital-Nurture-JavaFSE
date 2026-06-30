@@ -1,7 +1,5 @@
 package com.cognizant.orm_learn;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -10,6 +8,7 @@ import org.springframework.context.ApplicationContext;
 
 import com.cognizant.orm_learn.model.Country;
 import com.cognizant.orm_learn.service.CountryService;
+import com.cognizant.orm_learn.service.exception.CountryNotFoundException;
 
 @SpringBootApplication
 public class OrmLearnApplication {
@@ -19,87 +18,34 @@ public class OrmLearnApplication {
 
     private static CountryService countryService;
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
 
         ApplicationContext context =
                 SpringApplication.run(OrmLearnApplication.class, args);
 
         countryService = context.getBean(CountryService.class);
 
-        testGetAllCountries();
-
-        testFindCountry();
-
-        testAddCountry();
-
-        testUpdateCountry();
-
-        testDeleteCountry();
-
-        testSearchCountry();
-
+        getCountryTest();
     }
 
-    private static void testGetAllCountries() {
+    private static void getCountryTest() {
 
-        LOGGER.info("===== GET ALL COUNTRIES =====");
+        LOGGER.info("Start");
 
-        List<Country> countries = countryService.getAllCountries();
+        try {
 
-        countries.forEach(System.out::println);
+            Country country =
+                    countryService.findCountryByCode("IN");
 
-    }
+            LOGGER.debug("Country : {}", country);
 
-    private static void testFindCountry() throws Exception {
+        } catch (CountryNotFoundException e) {
 
-        LOGGER.info("===== FIND COUNTRY =====");
+            LOGGER.error(e.getMessage());
 
-        Country country = countryService.findCountryByCode("IN");
+        }
 
-        System.out.println(country);
-
-    }
-
-    private static void testAddCountry() {
-
-        LOGGER.info("===== ADD COUNTRY =====");
-
-        Country country = new Country("NP", "Nepal");
-
-        countryService.addCountry(country);
-
-        System.out.println("Country Added");
-
-    }
-
-    private static void testUpdateCountry() throws Exception {
-
-        LOGGER.info("===== UPDATE COUNTRY =====");
-
-        countryService.updateCountry("NP", "Federal Democratic Republic of Nepal");
-
-        System.out.println(countryService.findCountryByCode("NP"));
-
-    }
-
-    private static void testDeleteCountry() {
-
-        LOGGER.info("===== DELETE COUNTRY =====");
-
-        countryService.deleteCountry("NP");
-
-        System.out.println("Country Deleted");
-
-    }
-
-    private static void testSearchCountry() {
-
-        LOGGER.info("===== SEARCH COUNTRY =====");
-
-        List<Country> countries = countryService.searchCountry("Ind");
-
-        countries.forEach(System.out::println);
-
+        LOGGER.info("End");
     }
 
 }
