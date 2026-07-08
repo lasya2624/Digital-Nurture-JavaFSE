@@ -37,16 +37,10 @@ public class CountryController {
     }
     private CountryService countryService = new CountryService();
 
-    @GetMapping("/country/{code}")
+    @GetMapping("/countries/{code}")
     public Country getCountry(@PathVariable String code)
             throws CountryNotFoundException {
 
-        LOGGER.info("START");
-
-        Country country = countryService.getCountry(code);
-
-        LOGGER.info("END");
-
-        return country;
+        return countryService.getCountry(code);
     }
 }
